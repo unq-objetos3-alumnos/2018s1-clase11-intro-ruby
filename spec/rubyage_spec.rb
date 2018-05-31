@@ -8,6 +8,24 @@ describe 'Guerrero' do
     atila.atacar_a(cesar)
     expect(cesar.energia).to eq(90)
   end
+
+  it 'deberia descansar como defensor' do
+    atila = Guerrero.new
+    atila.descansar
+
+    expect(atila.energia).to eq(110)
+  end
+
+  it 'deberia descansar como atacante' do
+    atila = Guerrero.new
+    atila.descansar
+
+    cesar = Guerrero.new
+    expect(atila.potencial_ofensivo_proximo_ataque).to eq(60)
+
+    atila.atacar_a(cesar)
+    expect(cesar.energia).to eq(60)
+  end
 end
 
 describe 'Espadachin' do
@@ -32,6 +50,17 @@ describe 'Misil' do
     pepe = Guerrero.new
     expect{pepe.atacar_a(misil)}.to raise_error
   end
+
+  it 'deberia duplicar su potencial ofensivo al descansar' do
+    misil = Misil.new
+    misil.descansar
+    expect(misil.potencial_ofensivo_proximo_ataque).to eq(2000)
+
+    super_guerrero = Guerrero.new(30, 20, 3000)
+    misil.atacar_a(super_guerrero)
+
+    expect(super_guerrero.energia).to eq(1020)
+  end
 end
 
 describe 'Muralla' do
@@ -41,5 +70,13 @@ describe 'Muralla' do
 
     atila.atacar_a muralla
     expect(muralla.energia).to eq(2980)
+  end
+
+  it 'deberia descansar como defensor' do
+    muralla = Muralla.new
+
+    muralla.descansar
+
+    expect(muralla.energia).to eq(3010)
   end
 end
